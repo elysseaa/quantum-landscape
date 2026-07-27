@@ -1,0 +1,21 @@
+{
+  "name": "quantum-landscape",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Feeds-first scripts to survey quantum OSS and surface OpenQase content gaps / case-study candidates",
+  "type": "module",
+  "scripts": {
+    "snapshot": "tsx scripts/snapshot-openqase.ts"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}
