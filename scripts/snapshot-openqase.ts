@@ -40,7 +40,13 @@ type CaseStudyRow = {
 }
 
 async function loadEnvFiles() {
-  for (const name of ['.env.local', '.env']) {
+  const existing = new Set(Object.keys(process.env))
+  const files: Array<{ name: string; override: boolean }> = [
+    { name: '.env', override: false },
+    { name: '.env.local', override: true },
+  ]
+
+  for (const { name, override } of files) {
     try {
       const text = await readFile(path.join(root, name), 'utf8')
       for (const line of text.split('\n')) {
@@ -56,9 +62,10 @@ async function loadEnvFiles() {
         ) {
           value = value.slice(1, -1)
         }
-        if (!(key in process.env)) process.env[key] = value
+        if (existing.has(key)) continue
+        if (!override && key in process.env) continue
+        process.env[key] = value
       }
-      return
     } catch {
       // try next file
     }
