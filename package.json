@@ -5,7 +5,9 @@
   "description": "Feeds-first scripts to survey quantum OSS and surface OpenQase content gaps / case-study candidates",
   "type": "module",
   "scripts": {
-    "snapshot": "tsx scripts/snapshot-openqase.ts"
+    "fetch:openqase": "tsx scripts/fetch-openqase.ts",
+    "fetch:software": "tsx scripts/fetch-software.ts",
+    "fetch:cases": "tsx scripts/fetch-cases.ts"
   },
   "engines": {
     "node": ">=20"
