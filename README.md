@@ -7,7 +7,7 @@ Local scripts to survey the quantum open-source landscape and compare it to
 
 1. **`npm run fetch:openqase`** — pull published OpenQase software + case studies (anon API) → `data/openqase.json`
 2. **`npm run fetch:software`** — external software adapters → catalog + gap vs OpenQase
-3. **`npm run fetch:cases`** — external case adapters → catalog + gap vs OpenQase
+3. **`npm run fetch:cases`** — arXiv (`cat:quant-ph`, max 50, metadata only) → catalog + gap vs OpenQase
 
 Outputs are review lists by default. No writes to OpenQase.
 
@@ -99,7 +99,7 @@ src/
     dedupe.ts
     diff.ts
     aliases.ts
-    adapters/arxiv.ts
+    adapters/arxiv/   # fetch (ToU: ≤1 req / 3s) + parse Atom metadata
 data/
   openqase.json
   software.json
@@ -107,3 +107,7 @@ data/
   cases.json
   cases-vs-openqase.json
 ```
+
+### arXiv usage
+
+`src/cases/adapters/arxiv/fetch.ts` follows the [arXiv API Terms of Use](https://info.arxiv.org/help/api/tou.html): one request at a time, ≥3s between requests if paging, identifying User-Agent, and **metadata only** (no PDF re-hosting). Default query is `cat:quant-ph` with `max_results=50`.

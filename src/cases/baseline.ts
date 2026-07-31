@@ -3,19 +3,26 @@ import { readOpenqaseCatalog } from '../openqase/read-catalog.ts'
 import type { OpenqaseCatalog } from '../types/openqase.ts'
 import type { CaseEntry } from '../types/cases.ts'
 import { slugify } from '../utils/normalize.ts'
+import { normalizeArxivId } from './adapters/arxiv/parse.ts'
 
 /** Map OpenQase catalog case_studies into CaseEntry. */
 export function mapOpenqaseCases(catalog: OpenqaseCatalog): CaseEntry[] {
   return (catalog.case_studies ?? []).map((row) => {
     const slug = row.slug || slugify(row.title)
+    const haystack = `${row.title}\n${row.description ?? ''}`
+    const arxivId = normalizeArxivId(haystack)
+    const absUrl = arxivId ? `https://arxiv.org/abs/${arxivId}` : undefined
+
     return {
       title: row.title,
       slug,
       description: row.description ?? undefined,
       year: row.year,
       urls: {
-        primary: `openqase:${slug}`,
+        primary: absUrl ?? `openqase:${slug}`,
+        arxiv: absUrl,
       },
+      arxivId: arxivId ?? undefined,
       source: { id: 'openqase', ref: row.id },
     } satisfies CaseEntry
   })
