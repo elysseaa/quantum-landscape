@@ -5,7 +5,7 @@ Local scripts to survey the quantum open-source landscape and compare it to
 
 ## Capabilities
 
-1. **`npm run fetch:openqase`** — pull published OpenQase software + case studies (anon API) → `data/openqase-snapshot.json`
+1. **`npm run fetch:openqase`** — pull published OpenQase software + case studies (anon API) → `data/openqase.json`
 2. *(Planned)* **`npm run fetch:software`** — external software adapters → catalog + gap vs OpenQase
 3. *(Planned)* **`npm run fetch:cases`** — external case adapters → catalog + gap vs OpenQase
 
