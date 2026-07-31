@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "fetch:openqase": "tsx scripts/fetch-openqase.ts",
-    "fetch:software": "tsx scripts/fetch-software.ts"
+    "fetch:software": "tsx scripts/fetch-software.ts",
+    "fetch:cases": "tsx scripts/fetch-cases.ts"
   },
   "engines": {
     "node": ">=20"
