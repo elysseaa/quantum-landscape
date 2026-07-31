@@ -36,7 +36,9 @@ export async function loadEnvFiles(root: string = packageRoot): Promise<void> {
         if (!override && key in process.env) continue
         process.env[key] = value
       }
-    } catch {
+    } catch (err) {
+      const code = (err as NodeJS.ErrnoException | undefined)?.code
+      if (code !== 'ENOENT') throw err
       // try next file
     }
   }
