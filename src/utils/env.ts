@@ -6,8 +6,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 export const packageRoot = path.resolve(__dirname, '../..')
 
 /**
- * Load .env then .env.local (.env.local wins for keys not already in process.env
- * from the shell; keys already in process.env are never overwritten).
+ * Load .env then .env.local (.env.local wins over .env for keys not already in
+ * process.env before calling loadEnvFiles; preexisting keys are never overwritten).
  */
 export async function loadEnvFiles(root: string = packageRoot): Promise<void> {
   const existing = new Set(Object.keys(process.env))
