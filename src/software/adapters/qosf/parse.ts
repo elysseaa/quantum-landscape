@@ -169,7 +169,7 @@ function buildEntry(args: {
 function dedupeEntries(entries: SoftwareEntry[]): SoftwareEntry[] {
   const byKey = new Map<string, SoftwareEntry>()
   for (const e of entries) {
-    const key = e.githubRepo ?? `name:${e.slug}:${e.category ?? ''}`
+    const key = e.githubRepo ?? `slug:${e.slug}:${e.category ?? ''}`
     const prev = byKey.get(key)
     if (!prev) {
       byKey.set(key, e)
