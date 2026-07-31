@@ -36,21 +36,11 @@ CLI (scripts/fetch-<domain>.ts)
   6. write data/         <domain>.json + <domain>-vs-openqase.json
 ```
 
-```mermaid
-flowchart LR
-  sources[sources.ts] --> collect[collectSources]
-  collect --> dedupe[dedupe.ts]
-  dedupe --> diff[diff.ts]
-  baseline[baseline.ts] --> diff
-  openqaseJson[data/openqase.json] --> baseline
-  diff --> out[data JSON]
-```
-
 | Step | Role |
 |------|------|
 | **Adapter** (`adapters/`) | External feed → domain entries |
 | **Dedupe** | Merge among *external* sources (same GitHub / arXiv id) |
-| **Baseline** | Map cached OpenQase rows → same entry shape |
+| **Baseline** | Map cached OpenQase rows → set entry shape |
 | **Diff** | Gap report vs baseline |
 
 `fetch:openqase` is separate: it refreshes the shared baseline file that every domain’s `baseline.ts` reads.
@@ -74,39 +64,6 @@ Shared pieces stay outside domains:
 - `src/types/` — `SourceAdapter<T>`, `SoftwareEntry`, `CaseEntry`, `openqase.ts` (catalog DTOs), …
 - `src/utils/` — `collectSources`, `slugify`, `resolveAlias`, env helpers
 - `src/openqase/` — live fetch + read of `data/openqase.json`
-
-## Layout
-
-```
-scripts/
-  fetch-openqase.ts
-  fetch-software.ts
-  fetch-cases.ts
-src/
-  types/
-  utils/
-  openqase/
-  software/
-    sources.ts
-    baseline.ts
-    dedupe.ts
-    diff.ts
-    aliases.ts
-    adapters/qosf/…
-  cases/
-    sources.ts
-    baseline.ts
-    dedupe.ts
-    diff.ts
-    aliases.ts
-    adapters/arxiv/   # fetch (ToU: ≤1 req / 3s) + parse Atom metadata
-data/
-  openqase.json
-  software.json
-  software-vs-openqase.json
-  cases.json
-  cases-vs-openqase.json
-```
 
 ### arXiv usage
 
