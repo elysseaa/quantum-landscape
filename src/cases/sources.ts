@@ -1,6 +1,6 @@
 import type { SourceAdapter } from '../types/adapter.ts'
 import type { CaseEntry } from '../types/cases.ts'
-import { arxivAdapter } from './adapters/arxiv.ts'
+import { arxivAdapter } from './adapters/arxiv/index.ts'
 
 /**
  * External case-study feeds compared against OpenQase.
