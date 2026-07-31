@@ -6,16 +6,19 @@ import { slugify } from '../utils/normalize.ts'
 
 /** Map OpenQase catalog case_studies into CaseEntry. */
 export function mapOpenqaseCases(catalog: OpenqaseCatalog): CaseEntry[] {
-  return (catalog.case_studies ?? []).map((row) => ({
-    title: row.title,
-    slug: row.slug || slugify(row.title),
-    description: row.description ?? undefined,
-    year: row.year,
-    urls: {
-      primary: `openqase:${row.slug}`,
-    },
-    source: { id: 'openqase', ref: row.id },
-  }))
+  return (catalog.case_studies ?? []).map((row) => {
+    const slug = row.slug || slugify(row.title)
+    return {
+      title: row.title,
+      slug,
+      description: row.description ?? undefined,
+      year: row.year,
+      urls: {
+        primary: `openqase:${slug}`,
+      },
+      source: { id: 'openqase', ref: row.id },
+    } satisfies CaseEntry
+  })
 }
 
 /**
