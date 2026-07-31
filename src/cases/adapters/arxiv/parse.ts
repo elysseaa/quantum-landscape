@@ -45,13 +45,15 @@ export function parseArxivAtom(xml: string): CaseEntry[] {
 /** Strip version suffix: 1912.06070v2 → 1912.06070 */
 export function normalizeArxivId(raw: string | undefined): string | undefined {
   if (!raw) return undefined
-  const fromUrl = /arxiv\.org\/abs\/([0-9]+\.[0-9]+)(v\d+)?/i.exec(raw)
+  const fromUrl = /arxiv\.org\/abs\/([0-9]{4}\.[0-9]{4,5})(v\d+)?/i.exec(raw)
   if (fromUrl) return fromUrl[1]
   const fromId = /\b([0-9]{4}\.[0-9]{4,5})(v\d+)?\b/.exec(raw)
   if (fromId) return fromId[1]
   // Legacy: hep-th/9901001
-  const legacy = /arxiv\.org\/abs\/([a-z-]+\/[0-9]+)(v\d+)?/i.exec(raw)
-  if (legacy) return legacy[1].toLowerCase()
+  const legacyUrl = /arxiv\.org\/abs\/([a-z-]+\/[0-9]{7})(v\d+)?/i.exec(raw)
+  if (legacyUrl) return legacyUrl[1].toLowerCase()
+  const legacyId = /\b([a-z-]+\/[0-9]{7})(v\d+)?\b/i.exec(raw)
+  if (legacyId) return legacyId[1].toLowerCase()
   return undefined
 }
 

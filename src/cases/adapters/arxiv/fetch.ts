@@ -59,26 +59,40 @@ function buildQueryUrl(options: ArxivFetchOptions): string {
 }
 
 /** HTTP GET of one arXiv Atom query page (metadata only). */
+let arxivRequestChain: Promise<void> = Promise.resolve()
+
 export async function fetchArxivAtom(
   options: ArxivFetchOptions = {}
 ): Promise<string> {
-  await delayBetweenArxivRequests()
-
   const url = buildQueryUrl(options)
-  const res = await fetch(url, {
-    headers: {
-      Accept: 'application/atom+xml, application/xml, text/xml, */*',
-      'User-Agent': USER_AGENT,
-    },
-  })
+  let xml = ''
 
-  lastRequestAt = Date.now()
+  const run = arxivRequestChain
+    .catch(() => undefined)
+    .then(async () => {
+      await delayBetweenArxivRequests()
 
-  if (!res.ok) {
-    throw new Error(
-      `arXiv API fetch failed: ${res.status} ${res.statusText} (${url})`
-    )
-  }
+      const res = await fetch(url, {
+        headers: {
+          Accept: 'application/atom+xml, application/xml, text/xml, */*',
+          'User-Agent': USER_AGENT,
+        },
+      })
 
-  return res.text()
+      lastRequestAt = Date.now()
+
+      if (!res.ok) {
+        throw new Error(
+          `arXiv API fetch failed: ${res.status} ${res.statusText} (${url})`
+        )
+      }
+
+      xml = await res.text()
+    })
+
+  // Ensure later calls wait for this one, but never get stuck on a rejection.
+  arxivRequestChain = run.then(() => undefined, () => undefined)
+
+  await run
+  return xml
 }
