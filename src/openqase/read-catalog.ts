@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises'
-import { defaultOpenqaseDataPath } from '../openqase/fetch-catalog.ts'
+import { defaultOpenqaseDataPath } from './fetch-catalog.ts'
 import type { OpenqaseCatalog } from '../types/openqase.ts'
 
 export async function readOpenqaseCatalog(
