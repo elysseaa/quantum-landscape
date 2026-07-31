@@ -14,7 +14,8 @@ export function slugify(name: string): string {
 export function parseGithubRepo(url: string): string | undefined {
   try {
     const u = new URL(url)
-    if (!/(^|\.)github\.com$/i.test(u.hostname)) return undefined
+    const host = u.hostname.toLowerCase()
+    if (host !== 'github.com' && host !== 'www.github.com') return undefined
     const parts = u.pathname.split('/').filter(Boolean)
     if (parts.length < 2) return undefined
     const [owner, repoRaw] = parts
