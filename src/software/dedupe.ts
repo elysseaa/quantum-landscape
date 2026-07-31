@@ -2,7 +2,7 @@ import type { SoftwareEntry } from '../types/software.ts'
 
 /**
  * Collapse duplicate projects across sources.
- * Prefer githubRepo when present; otherwise name+slug within the same source.
+ * Prefer githubRepo when present (cross-source); otherwise dedupe by slug within a source.
  * First occurrence wins (registry order).
  */
 export function dedupeSoftwareEntries(
