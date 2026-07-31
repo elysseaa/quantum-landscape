@@ -1,4 +1,4 @@
-/** Pinned remote README used by the QOSF adapter. */
+/** Default remote README used by the QOSF adapter. */
 export const QOSF_README_URL =
   'https://raw.githubusercontent.com/qosf/awesome-quantum-software/master/README.md'
 
