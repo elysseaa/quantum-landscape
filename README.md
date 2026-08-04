@@ -5,11 +5,11 @@ Local scripts to survey the quantum open-source landscape and compare it to
 
 ## Capabilities
 
-1. **`npm run fetch:openqase`** — pull published OpenQase software + case studies (anon API) → `data/openqase.json`
-2. **`npm run fetch:software`** — external software adapters → catalog + gap vs OpenQase
-3. **`npm run fetch:cases`** — arXiv (`cat:quant-ph`, max 50, metadata only) → catalog + gap vs OpenQase
+1. **`npm run fetch:openqase`** — pulls published OpenQase software + case studies via anon API → `data/openqase.json`
+2. **`npm run fetch:software`** — pulls from external software sources → produces catalog + gap vs OpenQase
+3. **`npm run fetch:cases`** — pulls from external case study sources → produces catalog + gap vs OpenQase
 
-Outputs are review lists by default. No writes to OpenQase.
+Outputs are JSON review lists by default. No writes to OpenQase are made.
 
 ## Setup
 
@@ -24,7 +24,7 @@ npm run fetch:cases
 
 ## Content pipeline (software & cases)
 
-Both domains follow the same steps. Only the entry type and match keys differ.
+All content types follow the same steps.
 
 ```
 CLI (scripts/fetch-<domain>.ts)
